@@ -4,8 +4,8 @@
     padding: 0px;
 }
 body{
-    background: #000;
-    color: #fff;
+    background: #111;
+    color: #aaa;
     font-size: 2em;
     font-family: roboto;
 }
@@ -20,38 +20,53 @@ body{
     grid-template: 2fr 1fr 1fr 1fr 1fr 1fr / 1fr 1fr 1fr 1fr;
     grid-gap: 10px;
     padding: 10px;
-    box-shadow: 0px 0px 10px 10px #ddd;
+    box-shadow: 0px 0px 10px 10px #aaa;
     border-radius: 5px;
 }
 .item{
     padding: 10px 20px;
     border-radius: 5px;;
-    box-shadow: 0px 0px 2px 2px #ddd;
+    box-shadow: 0px 0px 2px 2px #aaa;
     transition: .3s;
 }
 .display{
     grid-column: 1 / 5;
     text-align: end;
-    box-shadow: 0px 0px 2px 2px #ddd;
+    box-shadow: 0px 0px 2px 2px #aaa;
     padding: 10px;  
     display: flex;
     flex-direction: column;  
 }
 .item:hover{
-    box-shadow: 0px 0px 5px 5px #ddd;
+    box-shadow: 0px 0px 5px 5px #aaa;
 }
 .item:active{
-    background: #eee;
+    background: #bbb;
 }
 .btn-toggle{
     position: absolute;
     top: 50%;
     left: 10%;
     transform: translate(-50%, -10%);
-    width: 50px;
-    height: 50px;
-    background: grey;
+    font-size: 25px;
+    padding: 10px;
+    box-shadow: 0px 0px 5px 5px #aaa;    
+    border-radius: 10px;
 }
 .btn-toggle:active{
-    background: black;
+    background: #aaa;
 }
+.upperDisplay{
+    transition: .5s; 
+
+}
+.lowerDisplay{
+   transition: .5s; 
+}
+@media only screen and (max-width: 600px) {
+    .btn-toggle{
+        top: 95%;
+        left: 50%;
+        transform: translate(-50%, -95%);
+    }
+  }
