@@ -55,7 +55,7 @@ function thing(operation) {
 
 /*--------for reset purposes ------- */
 
-function resetThings(){
+function resetThings() {
     screenNumbers = [];
     secondNumber = [];
     display.textContent = "";
