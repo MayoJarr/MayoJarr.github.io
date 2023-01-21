@@ -4,56 +4,56 @@ let isSecondLine = false;
 
 const display = document.querySelector(".upperDisplay");
 const secondDisplay = document.querySelector(".lowerDisplay");
-const one = document.querySelector(".one");
-const two = document.querySelector(".two");
-const three = document.querySelector(".three");
-const four = document.querySelector(".four");
-const five = document.querySelector(".five");
-const six = document.querySelector(".six");
-const seven = document.querySelector(".seven");
-const eight = document.querySelector(".eight");
-const nine = document.querySelector(".nine");
-const zero = document.querySelector(".zero");
 const reset = document.querySelector(".reset");
-const divide = document.querySelector(".divide");
-const multiply = document.querySelector(".multiply");
-const substract = document.querySelector(".substract");
-const add = document.querySelector(".add");
 const equal = document.querySelector(".equal");
-const dot = document.querySelector(".dot");
-const percent = document.querySelector(".percent");
 const ce = document.querySelector(".ce");
+const buttons = document.querySelectorAll("[data-number]");
+const operators = document.querySelectorAll("[data-operate]");
 
-one.addEventListener("click", () => addToDisplay(1));
-two.addEventListener("click", () => addToDisplay(2));
-three.addEventListener("click", () => addToDisplay(3));
-four.addEventListener("click", () => addToDisplay(4));
-five.addEventListener("click", () => addToDisplay(5));
-six.addEventListener("click", () => addToDisplay(6));
-seven.addEventListener("click", () => addToDisplay(7));
-eight.addEventListener("click", () => addToDisplay(8));
-nine.addEventListener("click", () => addToDisplay(9));
-zero.addEventListener("click", () => addToDisplay(0));
+buttons.forEach((button) => {
+    button.addEventListener("click", () => addToDisplay(button.innerText));
+});
+operators.forEach((item) => {
+    item.addEventListener("click", () => addOperator(item.innerText));
+});
+window.addEventListener("keydown", (e) => {
+    if (e.key >= 0 && e.key <= 9) addToDisplay(e.key);
+    else if (e.key === "/") e.preventDefault();
+    switch (e.key) {
+        case "*":
+            addOperator(e.key);
+            break;
+        case "/":
+            addOperator(e.key);
+            break;
+        case "-":
+            addOperator(e.key);
+            break;
+        case "+":
+            addOperator(e.key);
+            break;
+        case "Enter":
+            operate();
+            break;
+        case "=":
+            operate();
+            break;
+    }
+});
 equal.addEventListener("click", () => operate());
-multiply.addEventListener("click", () => thing("*"));
-divide.addEventListener("click", () => thing("/"));
-add.addEventListener("click", () => thing("+"));
-substract.addEventListener("click", () => thing("-"));
 reset.addEventListener("click", () => resetThings());
-dot.addEventListener("click", () => thing("."));
-percent.addEventListener("click", () => thing("%"));
 ce.addEventListener("click", () => {
     screenNumbers.pop();
-    if (isSecondLine === false){
-    display.textContent = screenNumbers.join("");
-    }else if (isSecondLine ===true){
-    secondDisplay.textContent = screenNumbers.join("");
+    if (isSecondLine === false) {
+        display.textContent = screenNumbers.join("");
+    } else if (isSecondLine === true) {
+        secondDisplay.textContent = screenNumbers.join("");
     }
 });
 
 /* ---------prepares math --------*/
 
-function thing(operation) {
+function addOperator(operation) {
     if (screenNumbers.length === 0) {
     } else {
         if (isSecondLine === true) {
