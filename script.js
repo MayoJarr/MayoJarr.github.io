@@ -20,6 +20,9 @@ const multiply = document.querySelector(".multiply");
 const substract = document.querySelector(".substract");
 const add = document.querySelector(".add");
 const equal = document.querySelector(".equal");
+const dot = document.querySelector(".dot");
+const percent = document.querySelector(".percent");
+const ce = document.querySelector(".ce");
 
 one.addEventListener("click", () => addToDisplay(1));
 two.addEventListener("click", () => addToDisplay(2));
@@ -37,6 +40,16 @@ divide.addEventListener("click", () => thing("/"));
 add.addEventListener("click", () => thing("+"));
 substract.addEventListener("click", () => thing("-"));
 reset.addEventListener("click", () => resetThings());
+dot.addEventListener("click", () => thing("."));
+percent.addEventListener("click", () => thing("%"));
+ce.addEventListener("click", () => {
+    screenNumbers.pop();
+    if (isSecondLine === false){
+    display.textContent = screenNumbers.join("");
+    }else if (isSecondLine ===true){
+    secondDisplay.textContent = screenNumbers.join("");
+    }
+});
 
 /* ---------prepares math --------*/
 
@@ -47,9 +60,16 @@ function thing(operation) {
             display.style.cssText = "opacity: 1;";
             secondDisplay.textContent = "";
         }
-        display.textContent = screenNumbers.join("") + operation;
-        screenNumbers.push(operation);
-        isSecondLine = false;
+        if (operation === "%") {
+            display.textContent = screenNumbers.join("") + operation;
+            screenNumbers.unshift("(");
+            screenNumbers.push("/100)*");
+            isSecondLine = false;
+        } else {
+            display.textContent = screenNumbers.join("") + operation;
+            screenNumbers.push(operation);
+            isSecondLine = false;
+        }
     }
 }
 
@@ -65,6 +85,8 @@ function resetThings() {
 /* ---------adds numbers to screen -------*/
 
 function addToDisplay(key) {
+    display.style.cssText = "opacity: 1;";
+
     if (isSecondLine === false) {
         if (screenNumbers.length >= 13) {
             screenNumbers.slice(0, 13);
@@ -75,6 +97,7 @@ function addToDisplay(key) {
         }
     } else if (isSecondLine === true) {
         resetThings();
+        isSecondLine = false;
         key = String(key);
         screenNumbers.push(key);
         display.textContent = screenNumbers.join("");
