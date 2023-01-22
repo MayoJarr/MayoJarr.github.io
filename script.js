@@ -17,43 +17,40 @@ operators.forEach((item) => {
     item.addEventListener("click", () => addOperator(item.innerText));
 });
 window.addEventListener("keydown", (e) => {
-    if (e.key >= 0 && e.key <= 9) addToDisplay(e.key);
+    if ((e.key >= 0 && e.key <= 9) || e.key === "," || e.key === ".")
+        addToDisplay(e.key);
     else if (e.key === "/") e.preventDefault();
-    switch (e.key) {
-        case "*":
-            addOperator(e.key);
-            break;
-        case "/":
-            addOperator(e.key);
-            break;
-        case "-":
-            addOperator(e.key);
-            break;
-        case "+":
-            addOperator(e.key);
-            break;
-        case "Enter":
-            operate();
-            break;
-        case "=":
-            operate();
-            break;
-    }
+    if (e.key === "*" || e.key === "/" || e.key === "-" || e.key === "+")
+        addOperator(e.key);
+    else if (e.key === "Enter" || e.key === "=") operate();
+    else if (e.key === "Backspace") CE();
 });
 equal.addEventListener("click", () => operate());
 reset.addEventListener("click", () => resetThings());
-ce.addEventListener("click", () => {
+ce.addEventListener("click", () => CE());
+
+/*--------for reset purposes ------- */
+
+function CE() {
     screenNumbers.pop();
     if (isSecondLine === false) {
         display.textContent = screenNumbers.join("");
     } else if (isSecondLine === true) {
         secondDisplay.textContent = screenNumbers.join("");
     }
-});
+}
+
+function resetThings() {
+    screenNumbers = [];
+    secondNumber = [];
+    display.textContent = "";
+    secondDisplay.textContent = "";
+}
 
 /* ---------prepares math --------*/
 
 function addOperator(operation) {
+    if (screenNumbers[screenNumbers.length - 1] === operation) return;
     if (screenNumbers.length === 0) {
     } else {
         if (isSecondLine === true) {
@@ -73,18 +70,14 @@ function addOperator(operation) {
     }
 }
 
-/*--------for reset purposes ------- */
-
-function resetThings() {
-    screenNumbers = [];
-    secondNumber = [];
-    display.textContent = "";
-    secondDisplay.textContent = "";
-}
-
 /* ---------adds numbers to screen -------*/
 
 function addToDisplay(key) {
+    if (key === "," || key === ".") {
+        key = ".";
+        const isFloat = screenNumbers.some((item) => item === ".");
+        if (isFloat === true) return;
+    }
     display.style.cssText = "opacity: 1;";
 
     if (isSecondLine === false) {
@@ -104,10 +97,14 @@ function addToDisplay(key) {
     }
 }
 /* -------- Does math and puts on screen --------*/
+
 function operate() {
+    const last = screenNumbers[screenNumbers.length - 1];
+    if (last === "*" || last === "/" || last === "-" || last === "+") return;
     isSecondLine = true;
     display.textContent = screenNumbers.join("") + "=";
-    screenNumbers = eval(screenNumbers.join(""));
+    //screenNumbers = eeval(screenNumbers, "*");
+    screenNumbers = Function("return " + screenNumbers.join(""))();
     secondDisplay.textContent = screenNumbers;
     display.style.cssText = "opacity: .5;";
     screenNumbers = String(screenNumbers).split("");
